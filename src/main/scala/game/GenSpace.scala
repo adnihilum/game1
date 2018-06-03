@@ -6,8 +6,11 @@ class GenSpace[CellType: ClassTag] (val width: Int, val height: Int, defaultCell
 {
   val cells: Array[CellType] = new Array[CellType](width * height)
 
-  def idx(x:Int, y:Int) = {
-    if(x < 0 || x > width || y < 0 || y > height)
+  def inBound(x: Int, y: Int): Boolean =
+    (x >= 0) && (x < width) && (y >= 0) && (y < height)
+
+  def idx(x:Int, y:Int): Int = {
+    if(!inBound(x, y))
       throw new IndexOutOfBoundsException
     x + y * width
   }

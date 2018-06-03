@@ -32,4 +32,10 @@ object ShowImplicits {
         }).foldLeft("")(_ ++ _)
       prefix + body
     })
+
+  implicit val pathShow: Show[Path] =
+    Show.show[Path] {case Path(space, points) => {
+      "hello, world!"
+
+  }}
 }
