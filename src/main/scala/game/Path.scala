@@ -26,26 +26,25 @@ object Path {
       mutable.SortedSet.empty(Ordering.by[PathPoint, Double](_.score))
     var traveled: Set[PathPoint] = Set()
 
-    val state = new Object {
-      var steps: Int = 0
-    }
     queue += new PathPoint(start, 0, null)
 
     def score(cur:Point): Double =
       pow(cur.x - goal.x, 2) + pow(cur.y - goal.y, 2)
 
     def neighbors(pos:Point): Seq[Point] = {
-      case Point(x, y) => {
-        for {
-          dx:Int <- -1 to 1
-          dy:Int <- -1 to 1
-          if !(dx == 0 && dy == 0)
-          if space.isAccesable(x + dx, y + dy)
-        } yield (new Point(x + dx, y + dy)):Point
+      pos match {
+        case Point(x, y) => {
+          for {
+            dx: Int <- -1 to 1
+            dy: Int <- -1 to 1
+            if !(dx == 0 && dy == 0)
+            if space.isAccesable(x + dx, y + dy)
+          } yield (new Point(x + dx, y + dy)): Point
+        }
       }
     }
 
-    def iter: PathPoint = {
+    def iter(steps: Int): PathPoint = {
       if(queue.isEmpty) ???
 
       val cur = queue.head
@@ -53,15 +52,13 @@ object Path {
 
       if(cur.pos === goal) cur
       else {
-        state.steps += 1
-
         for{
           neighbor <- neighbors(cur.pos)
         } {
-          val nextPPoint = new PathPoint(neighbor, state.steps + score(neighbor), cur)
+          val nextPPoint = new PathPoint(neighbor, steps + score(neighbor), cur)
           queue += nextPPoint
         }
-
+        iter(steps + 1)
       }
 
     }
@@ -73,7 +70,7 @@ object Path {
     }
 
 
-    val pathPoints = traceBack(iter, List())
+    val pathPoints = traceBack(iter(steps = 0), List())
     new Path(space, pathPoints)
   }
 }

@@ -12,3 +12,5 @@ scalacOptions ++= Seq(
   "-Xfatal-warnings",
   "-Ypartial-unification"
 )
+
+scalacOptions ++= Seq("-feature")
