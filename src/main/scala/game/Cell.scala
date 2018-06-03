@@ -6,11 +6,6 @@ import cats.implicits._
 sealed trait Cell
 
 object Cell {
-  implicit val cellShow: Show[Cell] = Show.show[Cell] {
-    case CellEmpty => "."
-    case CellFull => "#"
-  }
-
   implicit val cellEq: Eq[Cell] = Eq.instance[Cell] { _ == _ }
 }
 

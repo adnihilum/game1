@@ -1,6 +1,8 @@
 package game
+
 import cats._
 import cats.implicits._
+import ShowImplicits._
 
 object Main extends App {
   val space = Space(10, 10)
