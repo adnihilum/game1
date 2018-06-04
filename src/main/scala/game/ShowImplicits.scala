@@ -35,7 +35,31 @@ object ShowImplicits {
 
   implicit val pathShow: Show[Path] =
     Show.show[Path] {case Path(space, points) => {
-      ???
+      val printSpace = GenSpace[String](space.width, space.height, ".")
 
+      // print space itself
+      for{
+        x <- 0 until space.width
+        y <- 0 until space.height
+      } yield {
+        printSpace(x, y) = space(x,y).show
+      }
+
+      // print points of the path
+      def getChar(idx:Int) = {
+        val chars = 'a' to 'z'
+        chars(idx % chars.length)
+      }
+
+      for{(p, idx) <- points.zipWithIndex}yield{
+        printSpace(p.x, p.y) = {
+          if (idx == 0) "S" // this is the start point
+          else if(idx == points.length - 1) "E" //this is the end
+          else getChar(idx).toString
+        }
+      }
+
+      printSpace.show
   }}
+
 }

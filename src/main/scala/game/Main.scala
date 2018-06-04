@@ -6,6 +6,14 @@ import ShowImplicits._
 
 object Main extends App {
   val space = Space(10, 10)
+
+  for{
+    x <- 2 to 3
+    y <- 2 to 3
+  } yield {
+    space(x, y) = CellFull
+  }
+
   space(1,5) = CellFull
   println(space.show)
 
