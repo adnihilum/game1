@@ -47,7 +47,7 @@ object ShowImplicits {
 
       // print points of the path
       def getChar(idx:Int) = {
-        val chars = 'a' to 'z'
+        val chars = ('0' to '9') ++ ('a' to 'z')
         chars(idx % chars.length)
       }
 
